@@ -7,10 +7,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Build
+      - name: Prepare
         run: |
-          apt update
-          apt install libmosquitto openssl git
+          sudo apt update
+          sudo apt install libmosquitto openssl git cmake g++-arm-linux-gnueabihf
           git clone https://github.com/fmtlib/fmt
           cd fmt
           mkdir _build
@@ -18,4 +18,9 @@ jobs:
           cmake -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++ \
           -DCMAKE_INSTALL_PREFIX=/usr/arm-linux-gnueabihf -DFMT_TEST=OFF ..
           make -j4
-          make install
+          sudo make install
+          - name: Build
+            mkdir _build
+            cd _build
+            cmake ..
+            make
