@@ -10,7 +10,7 @@ jobs:
       - name: Prepare
         run: |
           sudo apt update
-          sudo apt install libmosquitto openssl git cmake g++-arm-linux-gnueabihf
+          sudo apt install libmosquitto1 openssl git cmake g++-arm-linux-gnueabihf
           git clone https://github.com/fmtlib/fmt
           cd fmt
           mkdir _build
