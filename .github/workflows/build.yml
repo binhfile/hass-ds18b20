@@ -1,0 +1,21 @@
+name: Build Project
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: |
+          apt update
+          apt install libmosquitto openssl git
+          git clone https://github.com/fmtlib/fmt
+          cd fmt
+          mkdir _build
+          cd _build
+          cmake -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++ \
+          -DCMAKE_INSTALL_PREFIX=/usr/arm-linux-gnueabihf -DFMT_TEST=OFF ..
+          make -j4
+          make install
