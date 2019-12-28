@@ -19,8 +19,9 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=/usr/arm-linux-gnueabihf -DFMT_TEST=OFF ..
           make -j4
           sudo make install
-          - name: Build
-            mkdir _build
-            cd _build
-            cmake ..
-            make
+      - name: Build
+        run: |
+	  mkdir _build
+	  cd _build
+	  cmake ..
+	  make
