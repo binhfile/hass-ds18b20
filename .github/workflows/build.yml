@@ -17,7 +17,7 @@ jobs:
       - name: Prepare
         run: |
           sudo apt update
-          sudo apt install libmosquitto-dev libmosquitto1 openssl git cmake g++-arm-linux-gnueabihf
+          sudo apt install wget git cmake g++-arm-linux-gnueabihf
           git clone https://github.com/fmtlib/fmt
           cd fmt
           mkdir _build
@@ -26,7 +26,22 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=/usr/arm-linux-gnueabihf -DFMT_TEST=OFF ..
           make -j4
           sudo make install
-          git submodule update --init
+          cd ../..
+          wget https://www.openssl.org/source/openssl-1.1.1d.tar.gz
+          tar xf openssl-1.1.1d.tar.gz
+          cd openssl-1.1.1d
+          ./Configure linux-generic32 shared --prefix=/usr/arm-linux-gnueabihf --openssldir=/usr/arm-linux-gnueabihf/openssl --cross-compile-prefix=arm-linux-gnueabihf-
+          make depend
+          make -j4
+          make install
+          cd ..
+          git clone https://github.com/eclipse/mosquitto
+          cd mosquitto
+          mkdir build
+          cd build
+          cmake -DCMAKE_C_COMPILER=arm-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=arm-linux-gnueabihf-g++ -DCMAKE_INSTALL_PREFIX=/usr/arm-linux-gnueabihf ..
+          make -j4
+          make install
       - name: Build
         run: |
           ls .
