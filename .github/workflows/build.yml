@@ -20,6 +20,7 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=/usr/arm-linux-gnueabihf -DFMT_TEST=OFF ..
           make -j4
           sudo make install
+          git submodule update --init
       - name: Build
         run: |
           ls .
